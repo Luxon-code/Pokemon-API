@@ -10,8 +10,40 @@
     <script src="js/index.js"></script>
     <title id="tituloBarra">Tipos Pokemos</title>
 </head>
-<body onload="PrintPokemon()" class="fondo">
-    <div class="container">
+<body onload="PrintPokemon(),typePokemon2(),searchPokemon()" class="fondo">
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
+                <div class="container-fluid">
+                  <a class="navbar-brand" href="index.html">
+                    <img src="https://e0.pxfuel.com/wallpapers/87/977/desktop-wallpaper-luizvc-s-custom-pokemon-type-symbols-pokemon-elements-pokemon-pokemon-logo.jpg" alt="Avatar Logo" style="width:40px;" class="rounded-pill"> 
+                  </a>
+                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                      <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="index.html">Inicio</a>
+                      </li>
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Categorias
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="listaCategorias" style="height: 200px; overflow: auto;">
+                        </ul>
+                      </li>
+                    </ul>
+                    <form class="d-flex">
+                      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="txtBuscar" id="txtBuscar"  onkeyup="autoCompletPokemon()" style="width: 500px;">
+                      <div id="listPokemon"></div>
+                      <button class="btn btn-outline-success" type="submit">Buscar</button>
+                    </form>
+                  </div>
+                </div>
+              </nav>
+        </div>
+        <br>
         <div class="row my-5">
             <div class="col-12">
                 <h1 class="text-center text-uppercase fontPokemon" id="titulo"></h1>

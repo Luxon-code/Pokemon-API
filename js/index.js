@@ -19,6 +19,18 @@ const categorias = []
                 data.results.forEach(element => {
                     categorias.push(element)
                     divTypePokemon(element)
+                    navCategorias(element)
+                });
+                carousel()
+            })
+    }
+    function typePokemon2(){
+        fetch("https://pokeapi.co/api/v2/type")
+            .then(Response => Response.json())
+            .then(data => {
+                console.log(data.results) 
+                data.results.forEach(element => {
+                    navCategorias(element)
                 });
                 carousel()
             })
@@ -36,6 +48,9 @@ const categorias = []
                 </div>
             </div>
         </div>`
+    }
+    function navCategorias(element) {
+        document.getElementById("listaCategorias").innerHTML += `<li><a class="dropdown-item" onclick="urlLocal('${element.url}')" href="tipos.html">${element.name}</a></li>`
     }
     function carousel() {
         let myCarousel = document.querySelectorAll('#featureContainer .carousel .carousel-item');
