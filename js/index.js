@@ -1,15 +1,10 @@
 const categorias = []
-    const palabras = []
+    const carrito = []
     const persona = {
         nombre: "David",
         edad: 20,
         ciuadad: "Neiva",
         cargo: "Programador"
-    }
-    function carrito() {
-        let valor = document.getElementById("txtBuscar").value
-        palabras.push(valor)
-        palabras.forEach(element => console.log(element));
     }
     function typePokemon(){
         fetch("https://pokeapi.co/api/v2/type")
@@ -86,7 +81,7 @@ const categorias = []
                     });
                     lista += `</div>`
                     document.getElementById("listPokemon").innerHTML = lista
-                    document.getElementById("listPokemon").style  = `position: absolute;top: 70px;width: 32%;right:170px;z-index:9999;height: 380px;overflow: auto;`
+                    document.getElementById("listPokemon").style  = `position: absolute;top: 53px;width: 22%;right:89px;z-index:9999;height: 380px;overflow: auto;`
                 }else{
                     document.getElementById("listPokemon").innerHTML = ""
                 }
@@ -226,7 +221,7 @@ function PrintPokemon(){
     .then((response)=>{
         let lista = ""
         pokemon.forEach(element =>{
-        lista +=  `<div class="card mb-3 mx-3 fondoCard" style="max-width: 540px;">
+        lista +=  `<div class="card mb-3 mx-3 fondoCard" style="max-width: 540px;" draggable="true" ondragstart="drag(event)" id="card${element.pokemon.name}">
             <div class="row g-0">
               <div class="col-md-4">
                 <a onclick="detallePokemon('${element.pokemon.url}')" href="detallePokemon.html">
@@ -241,7 +236,10 @@ function PrintPokemon(){
                   <br>
                   <div class="d-flex justify-content-around">
                     <button type="button" class="btn btn-outline-danger boton">Agregar al carrito</button>
-                    <button type="button" class="btn btn-outline-danger boton" disabled>Cantidad: 0</button>
+                    <input type="number" id="cant${element.pokemon.name}" value="0" placeholder="Cantidad" class="btn btn-outline-danger" style="width: 47%;
+                    height: 37px;
+                    top: 20px;
+                    position: relative;" min="0">
                   </div>
                 </div>
               </div>
@@ -266,4 +264,52 @@ function detallePokemon(urlDetallePokemon){
 }
 function detallePokemon2(url){
     localStorage.setItem("urlDetalle",url)
+}
+//Drag and drop
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+  
+function drag(ev) {
+    switch (ev.target.nodeName) {
+        case "DIV":
+            namePokemon = ev.target.id.slice(4).toLowerCase()
+            break;
+        case "IMG":
+            namePokemon = ev.target.id.slice(3).toLowerCase()
+            break;
+    }
+    ev.dataTransfer.setData("name", namePokemon);
+}
+  
+function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("name");
+    backInfoPokemon(data);
+}
+//end drag and drop
+function backInfoPokemon(name){
+    console.log(name);
+    fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
+    .then((response) => response.json())
+    .then((data => {
+        nombre = data.name
+        precio = data.base_experience*100
+        imagen = data.sprites.other["official-artwork"].front_default
+        cantidad = parseInt(document.getElementById(`cant${name}`).value)
+        const poke = {
+            "nombre": nombre,
+            "precio": precio,
+            "imagen": imagen,
+            "cantidad": cantidad
+        }
+        //let pokemon = new Pokemon(nombre,cantidad,precio,imagen)
+        if(cantidad == 0){
+            alert("Ingrese la cantidad que desea comprar")
+        }else{
+            carrito.push(poke)
+            localStorage.setItem("carrito",carrito)
+        }
+    }))
+    //nombrePokemon,precio = base_experinecia*100,imagen
 }
